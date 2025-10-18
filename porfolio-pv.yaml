@@ -12,7 +12,7 @@ spec:
   accessModes:
     - ReadWriteOnce
   hostPath:
-    path: "/Users/danny/Documents/Git/kube-porfolio/portfolio" # Use this as a submodule path for permanence
+    path: "/Users/danny/Documents/Git/kube-porfolio/portfolio" # Use this as a submodule path for permanence ##TODO: change to Azure Storage
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
