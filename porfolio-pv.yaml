@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: porfolio-pv
+  labels:
+    type: local
+    app: porfolio
+spec:
+  storageClassName: hostpath
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "portfolio"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: porfolio-pvc
+  labels:
+    app: porfolio
+spec:
+  resources:
+    requests:
+      storage: 10Gi
+  volumeMode: Filesystem
+  storageClassName: hostpath
+  volumeName: porfolio-pv
+  accessModes:
+    - ReadWriteOnce
+  selector:
+    matchExpressions:
+      - key: type
+        operator: In
+        values:
+          - local

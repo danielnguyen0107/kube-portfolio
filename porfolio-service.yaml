@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: porfolio-svc
+  namespace: default
+  labels:
+    app: porfolio
+spec:
+  selector:
+    app: porfolio
+  type: LoadBalancer
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+    name: http

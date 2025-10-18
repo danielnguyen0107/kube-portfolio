@@ -1,0 +1,37 @@
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: porfolio
+      namespace: default
+      labels:
+        app: porfolio
+    spec:
+      replicas: 2
+      selector:
+        matchLabels:
+          app: porfolio
+      template:
+        metadata:
+          labels:
+            app: porfolio
+        spec:
+          containers:
+          - name: nginx
+            image: nginx # Use the image name you built
+            imagePullPolicy: IfNotPresent # Important for local images not in a public registry
+            ports:
+            - containerPort: 80
+            resources:
+              limits:
+                memory: "128Mi"
+                cpu: "500m"
+              requests:
+                memory: "64Mi"
+                cpu: "250m"
+            volumeMounts:
+            - mountPath: "/usr/share/nginx/html"
+              name: porfolio-volume
+          volumes:
+          - name: porfolio-volume
+            persistentVolumeClaim:
+              claimName: porfolio-pvc
