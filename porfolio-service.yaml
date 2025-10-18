@@ -8,7 +8,7 @@ metadata:
 spec:
   selector:
     app: porfolio
-  type: LoadBalancer
+  type: LoadBalancer  # Use LoadBalancer for cloud environments; use NodePort for local clusters
   ports:
   - protocol: TCP
     port: 80
