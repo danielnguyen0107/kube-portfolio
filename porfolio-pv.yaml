@@ -12,7 +12,7 @@ spec:
   accessModes:
     - ReadWriteOnce
   hostPath:
-    path: "portfolio"
+    path: "portfolio" # Use this as a submodule path for permanence
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -26,7 +26,7 @@ spec:
       storage: 10Gi
   volumeMode: Filesystem
   storageClassName: hostpath
-  volumeName: porfolio-pv
+  volumeName: porfolio-pv # Bind to the created PV
   accessModes:
     - ReadWriteOnce
   selector:
