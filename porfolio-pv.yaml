@@ -1,10 +1,11 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: porfolio-pv
+  name: portfolio-pv
+  namespace: devops
   labels:
     type: local
-    app: porfolio
+    app: portfolio
 spec:
   storageClassName: hostpath
   capacity:
@@ -12,21 +13,22 @@ spec:
   accessModes:
     - ReadWriteOnce
   hostPath:
-    path: "/Users/danny/Documents/Git/kube-porfolio/portfolio" # Use this as a submodule path for permanence ##TODO: change to Azure Storage
+    path: "/Users/danny/Documents/Git/kube-portfolio/portfolio" # Use this as a submodule path for permanence ##TODO: change to Azure Storage
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: porfolio-pvc
+  namespace: devops
+  name: portfolio-pvc
   labels:
-    app: porfolio
+    app: portfolio
 spec:
   resources:
     requests:
       storage: 10Gi
   volumeMode: Filesystem
   storageClassName: hostpath
-  volumeName: porfolio-pv # Bind to the created PV
+  volumeName: portfolio-pv # Bind to the created PV
   accessModes:
     - ReadWriteOnce
   selector:

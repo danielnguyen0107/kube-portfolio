@@ -1,4 +1,4 @@
-# kube-porfolio
+# kube-portfolio
 https://kubernetes.io/docs/concepts/configuration/overview/
 The setup is based on Kubernetes configuration best practices
 
@@ -9,6 +9,10 @@ https://kubernetes.io/docs/tasks/tools/
 2. install minikube
 
 https://minikube.sigs.k8s.io/docs/handbook/kubectl/
+
+3. Create a new namespace
+
+kubectl create namespace devops
 
 3. Deploy the service first
 
