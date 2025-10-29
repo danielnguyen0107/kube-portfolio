@@ -1,4 +1,4 @@
-# kube-porfolio
+# kube-portfolio
 https://kubernetes.io/docs/concepts/configuration/overview/
 The setup is based on Kubernetes configuration best practices
 
@@ -9,6 +9,10 @@ https://kubernetes.io/docs/tasks/tools/
 2. install minikube
 
 https://minikube.sigs.k8s.io/docs/handbook/kubectl/
+
+3. Create a new namespace
+
+kubectl create namespace devops
 
 3. Deploy the service first
 
@@ -30,3 +34,10 @@ Create a Service before its corresponding backend workloads (Deployments or Repl
 
 6. get the dns
 
+
+
+
+az aks get-credentials --resource-group rg-portfolio-rg1 --name portfolio-aks-rg1
+
+STORAGE_KEY=$(az storage account keys list --resource-group rg-portfolio-rg1 --account-name staccrg01 --query "[0].value" -o tsv)
+kubectl create secret generic azure-secret --from-literal=azurestorageaccountname=staccrg01 --from-literal=azurestorageaccountkey=$STORAGE_KEY
