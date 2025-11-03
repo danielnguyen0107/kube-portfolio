@@ -2,42 +2,44 @@
 https://kubernetes.io/docs/concepts/configuration/overview/
 The setup is based on Kubernetes configuration best practices
 
-1. install k8s
+**Continue setup portfolio page from https://github.com/danielnguyen0107/tf-azure-aks-porfolio/**
 
-https://kubernetes.io/docs/tasks/tools/
 
-2. install minikube
-
-https://minikube.sigs.k8s.io/docs/handbook/kubectl/
-
-3. Create a new namespace
-
-kubectl create namespace devops
-
+1. Get access credentials for a managed Kubernetes cluster
+```
+#az aks get-credentials --resource-group rg-portfolio-rg1 --name portfolio-aks-rg1
+```
+2. Create a Opaque secret for kubernetes to access storage account as its pv
+```
+#STORAGE_KEY=$(az storage account keys list --resource-group rg-portfolio-rg1 --account-name staccrg01 --query "[0].value" -o tsv)
+#kubectl create secret generic azure-secret --from-literal=azurestorageaccountname=staccrg01 --from-literal=azurestorageaccountkey=$STORAGE_KEY
+```
 3. Deploy the service first
 
-Create a Service before its corresponding backend workloads (Deployments or ReplicaSets), and before any workloads that need to access it. When Kubernetes starts a container, it provides environment variables pointing to all the Services which were running when the container was started.
-
-#minikube kubectl -- apply -f porfolio-services.yaml
-
-3. Setup a PermanentVolume and create its claim
-
-#minikube kubectl -- apply -f porfolio-pv.yaml
-
+>"Create a Service before its corresponding backend workloads (Deployments or ReplicaSets), and before any workloads that need to access it. When Kubernetes starts a container, it provides environment variables pointing to all the Services which were running when the container was started."
+```
+#kubectl apply -f porfolio-services.yaml
+```
 4. Deploy the pods
+```
+#kubectl apply -f porfolio-deployment.yaml
+```
+5. Check all deployed resources
+```
+kubectl get all -n portfolio
+NAME                            READY   STATUS    RESTARTS   AGE
+pod/portfolio-6b4797b5f-2kb9g   1/1     Running   0          4d17h
+pod/portfolio-6b4797b5f-mqscs   1/1     Running   0          4d17h
 
-#minikube kubectl -- apply -f porfolio-deployment.yaml
+NAME                    TYPE           CLUSTER-IP   EXTERNAL-IP    PORT(S)        AGE
+service/portfolio-svc   LoadBalancer   10.0.13.80   4.254.117.24   80:31048/TCP   9d
 
-5. access the link
+NAME                        READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/portfolio   2/2     2            2           9d
 
+NAME                                  DESIRED   CURRENT   READY   AGE
+replicaset.apps/portfolio-6b4797b5f   2         2         2       9d
+```
 
-
-6. get the dns
-
-
-
-
-az aks get-credentials --resource-group rg-portfolio-rg1 --name portfolio-aks-rg1
-
-STORAGE_KEY=$(az storage account keys list --resource-group rg-portfolio-rg1 --account-name staccrg01 --query "[0].value" -o tsv)
-kubectl create secret generic azure-secret --from-literal=azurestorageaccountname=staccrg01 --from-literal=azurestorageaccountkey=$STORAGE_KEY
+6. From browser, access the EXTERNAL-IP to check if the page is accessible now
+![alt text](img/browser.png)
