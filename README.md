@@ -13,7 +13,7 @@ $ az aks get-credentials --resource-group rg-portfolio-rg1 --name portfolio-aks-
 ```
 $ STORAGE_KEY=$(az storage account keys list --resource-group rg-portfolio-rg1 --account-name staccrg01 --query "[0].value" -o tsv)
 $ kubectl create secret generic azure-secret --from-literal=azurestorageaccountname=staccrg01 --from-literal=azurestorageaccountkey=$STORAGE_KEY
-``
+```
 3. Deploy the service first
 
 >"Create a Service before its corresponding backend workloads (Deployments or ReplicaSets), and before any workloads that need to access it. When Kubernetes starts a container, it provides environment variables pointing to all the Services which were running when the container was started."
